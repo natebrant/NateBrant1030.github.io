@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Home</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <script type="module" src="script.js "></script>
+</head>
+
+<body>
+    <div class="header">
+        <div class="flex">
+            <div class="block" style="margin-left:1%;">
+                <h1>Chat app</h1>
+            </div>
+            <div class="block" style="margin-left:25%;">
+                <input class="input" name="comment" placeholder="Search"></input>
+            </div>
+            <div class="block" style="margin-left:12%" ;>
+                <button class="nav-button block" onclick="location.href='index.html'">Home</button>
+            </div>
+            <div class=" block ">
+                <button class="nav-button block " onclick="location.href='favorites.html'">Favorites</button>
+            </div>
+            <div class="block ">
+                <button class="nav-button block " id="test">Sign/Log in</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main ">
+        <div class="textbox toSend" id="toSend" style='height:500px;'>
+
+
+        </div>
+
+
+        <div class="textbox input">
+            <input class="textbox input" class="chat" id="chat" type="text" name="message" style='width:97%;' placeholder="Message...">
+            <input class="textbox input" class="chat" id="send" type="submit" value="Send">
+        </div>
+
+    </div>
+
+
+
+</body>
+
+</html>
