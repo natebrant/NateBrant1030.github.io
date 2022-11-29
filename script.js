@@ -5,6 +5,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebas
 
 import { getDatabase, ref, set, onValue, get } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
 
+localStorage.account;
 
 // with will set ther server to the server they are in no matter that page is
 try {
@@ -13,7 +14,6 @@ try {
     var server = null;
 }
 
-var varurl = document.URL;
 
 // Your web app's Firebase configuration
 
@@ -80,14 +80,16 @@ function writeUserData(name, message) {
             server: server
 
         });
-        // go to the server then the postcount file 
+        // go to the server then the postcount file
+        console.log("name: ", name) 
+        console.log("message: ", message)
         set(ref(db, "servers/" + server + "/" + "message" + nums.nums + "/"), {
             // add name and message to it
             name: name,
             message: message,
 
         });
-
+        location.href = 'chat.html' + "?server=" + server
     })
 }
 
@@ -144,6 +146,7 @@ function loadchat() {
             // loops through all servers
             // console.log(snap.val())
             const chat = snap.val();
+            // console.log("the chat",chat)
             // makes a div to add to the cant list that gos to the chay name in the file and sets it to it htlm
             var user = document.createElement('div');
             user.id = "server";
@@ -157,6 +160,7 @@ function loadchat() {
 
 
             try {
+            
                 if (chat.name != null || chat.message != null) {
 
                     document.getElementById("toSend").appendChild(user);
@@ -184,6 +188,62 @@ function setserver(search) {
 }
 
 
+function makeAccount() {
+    // num go to servers postcount
+    console.log("makeing accout")
+    const db = getDatabase(app);
+
+    const users = ref(db, "users/" + document.getElementById("sName").value + "/");
+    console.log(document.getElementById("sName").value)
+
+    if (document.getElementById("sPassword").value == document.getElementById("sPassword").value){
+        var pass = document.getElementById("sPassword").value
+    }
+    else {
+        // stop
+    }
+    get((db, users)).then((snapshot) => {
+        // gets value of post counts
+        const nums = snapshot.val();
+        set(users, {
+            // sets it to itself +1
+            name: document.getElementById("sName").value, 
+            user:document.getElementById("sUName").value,
+            email: document.getElementById("sEmail").value,
+            password: pass
+
+
+        });
+        
+        });
+        // location.href = 'account.html'
+    }
+
+    function login() {
+        // num go to servers postcount
+        console.log("logging in...");
+        const db = getDatabase(app);
+    
+        const users = ref(db, "users/" );
+        console.log(document.getElementById("sName").value)
+    
+        get((db, users)).then((snapshot) => {
+            snapshot.forEach(snap => {
+                // loops through all servers
+                const user = snap.val();
+                // makes a div to add to the server list that gos to the server name in the file and sets it to it htlm\
+                console.log(user)
+                if(user.user==document.getElementById("lName").value && user.password == document.getElementById("lPass").value || user.email==document.getElementById("lName").value && user.password == document.getElementById("lPass").value){
+                    localStorage.account = JSON.stringify(user)
+
+                    location.href = "index.html"
+                }
+            });
+            
+            
+        })
+
+        }
 
 // makeServer(server)
 // loadservers()
@@ -220,29 +280,35 @@ onValue(data, (snapshot) => {
 // firebase_node.once('value', function(snapshot) { alert('Count: ' + snapshot.numChildren()); });
 // console.log("working");
 try {
-    // writeUserData(prompt("name"), prompt("message"));
-
-    try {
-        console.log("chat: ", document.getElementById("chat").innerHTML)
-        var msg = document.getElementById("message").innerHTML
-    } catch (error) {
-        var msg = null;
-    }
-    document.getElementById("send").onclick = function() { writeUserData(prompt("name"), msg);
-        location.href = 'chat.html' + "?server=" + server };
+    
+    document.getElementById("send").onclick = function() { writeUserData(JSON.parse(localStorage.account).user, document.getElementById("chat").value) 
+    };
 } catch (error) {
 
 }
 
 try {
     // writeUserData(prompt("name"), prompt("message"));
-    document.getElementById("test").onclick = function() { writeUserData(prompt("name"), prompt("message")) };
+    document.getElementById("test").onclick = function() { console.log(JSON.parse(localStorage.account).user) };
+} catch (error) {
+
+}
+
+try {
+    // writeUserData(prompt("name"), prompt("message"));
+    document.getElementById("create").onclick = function() { makeServer(prompt("name"))  };
 } catch (error) {
 
 }
 try {
     // writeUserData(prompt("name"), prompt("message"));
-    document.getElementById("create").onclick = function() { makeServer(prompt("name")) };
+    document.getElementById("signUp").onclick = function() { makeAccount() };
+} catch (error) {
+
+}
+try {
+    // writeUserData(prompt("name"), prompt("message"));
+    document.getElementById("login").onclick = function() { login() };
 } catch (error) {
 
 }

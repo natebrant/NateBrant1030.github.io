@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width">
     <title>Home</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
+    <script src="script.js " type="module"></script>
 </head>
 
 <body>
@@ -16,25 +17,24 @@
     <div class="main ">
         <div class="block center">
             <div class="form">
-                <input class="input" type="text" name="Name" style='width:80%' placeholder="First,Last Name">
-                <input class="input" type="text" name="UName" style='width:80%' placeholder="UserName">
-                <input class="input" type="text" name="Email" style='width:80%' placeholder="Email">
-                <input class="input" type="text" name="Password" style='width:80%' placeholder="Password">
-                <input class="input" type="text" name="Password2" style='width:80%;' placeholder="Verify Password">
-                <input class="input" type="submit" value="Sign up">
+                <input class="input" type="text" name="Name" id="sName" style='width:80%' placeholder="First,Last Name">
+                <input class="input" type="text" name="UName" id="sUName" style='width:80%' placeholder="UserName">
+                <input class="input" type="text" name="Email" id="sEmail" style='width:80%' placeholder="Email">
+                <input class="input" type="text" name="Password" id="sPassword"style='width:80%' placeholder="Password">
+                <input class="input" type="text" name="Password2" id="sPassword2"style='width:80%;' placeholder="Verify Password">
+                <input class="input" type="submit" id="signUp" value="Sign up">
             </div>
             <h1 style="margin-left:50%;">or</h1>
             <div class="form">
-                <input class="input" type="text" name="UName" style='width:80%' placeholder="UserName or Email">
-                <input class="input" type="text" name="Password" style='width:80%' placeholder="Password">
+                <input class="input" type="text" name="UName" id="lName" style='width:80%' placeholder="UserName or Email">
+                <input class="input" type="text" name="Password" id="lPass" style='width:80%' placeholder="Password">
 
-                <input class="input" type="submit" value="Login">
+                <input class="input" type="submit" id="login" value="Login">
             </div>
         </div>
     </div>
 
 
-    <script src="script.js "></script>
 
 </body>
 
