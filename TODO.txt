@@ -1,18 +1,11 @@
 // TODO : Front end
-Center gui make it look cleaner
 Think of a name for the website
-Add a Create room option
 Hide password while typing it 
 Eventually: add a sidebar on server that will show users online 
 
 //TODO: back end
-Set up firebase into the js file 
 Make it so that if someone is not logged in it will go to the login page 
-Research how to use cookies so that i can make the users that log in stay logged in on refresh
-Make a way to create an account that makes a person class and pushes to firebase
-Find a way to push and pull whenever someone types and enter into a text box
 Show users online state if they are online with the server faved 
-Way to make a room that will create a new html file with the template and gose to different firebase hopefully thread so i can update separately
 Maybe: find a way to say user is typing
 
 Person class{
