@@ -153,3 +153,90 @@ input[type="submit"]:hover {
     /* height: 100%;
     width: 100%; */
 }
+
+.space {
+    width: 10000px;
+}
+
+.maintop {
+    display: flex;
+    /* border: 1px solid white; */
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: auto;
+    width: auto;
+    margin: 3%;
+}
+
+.form-popup {
+    display: none;
+    position: fixed;
+    bottom: 35%;
+    right: 40%;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+}
+
+.form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: #3a3834;
+}
+
+.form-container input[type=text],
+.form-container input[type=password] {
+    width: 85%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: 1 solid white;
+    background: #3a3834;
+    color: #dd7d53;
+}
+
+
+/* When the inputs get focus, do something */
+
+.form-container input[type=text]:focus,
+.form-container input[type=password]:focus {
+    background-color: #3a3834;
+    outline: none;
+}
+
+
+/* Set a style for the submit/login button */
+
+.form-container .btn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 10px;
+    opacity: 0.8;
+}
+
+
+/* Add a red background color to the cancel button */
+
+.form-container .cancel {
+    background-color: orange;
+}
+
+
+/* Add some hover effects to buttons */
+
+.form-container .btn:hover,
+.open-button:hover {
+    opacity: 1;
+}
+
+.images {
+    margin-right: 1%;
+    width: 3%;
+}
+
+#server {
+    display: flex;
+}

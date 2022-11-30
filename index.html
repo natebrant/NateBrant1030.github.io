@@ -9,16 +9,17 @@
 </head>
 
 <body>
-    <base href="/">
     <div class="header">
         <div class="flex">
-            <div class="block" style="margin-left:1%;">
+            <div class="block" style="margin-left:1%; white-space: nowrap;">
                 <h1>Chat app</h1>
             </div>
-            <div class="block" style="margin-left:25%;">
+            <div class="block space" ;></div>
+            <div class="block">
                 <input class="input" name="comment" placeholder="Search"></input>
             </div>
-            <div class="block" style="margin-left:12%" ;>
+            <div class="block space" ;></div>
+            <div class="block" ;>
                 <button class="nav-button block" onclick="location.href='index.html'">Home</button>
             </div>
             <div class=" block ">
@@ -27,21 +28,31 @@
             <div class="block ">
                 <button class="nav-button block " id="account" onclick="location.href='account.html'">Sign/Log in</button>
             </div>
-            <div class="block ">
-                <button class="nav-button block " id="test" >test</button>
-            </div>
-            <div class="block ">
-                <button class="nav-button block " id="create">create</button>
-                <!-- onclick="location.href='account.html' -->
-            </div>
+
         </div>
     </div>
+    <div>
+        <div class="main " id="main">
+            <div class="itemtop ">Servers</div>
 
-    <div class="main " id="main">
+        </div>
+        <div class="main " id="main">
+
+            <button class="item" id="create">Create A Server</button>
+        </div>
+        <div class="form-popup" id="myForm">
+            <form class="form-container">
+                <h1>Create Server</h1>
+                <input type="text" placeholder="Enter Server name" id="serverName" required>
+
+                <input type="text" placeholder="Enter Server image url" id="img">
+
+                <button type="submit" class="btn" id="createServer">Create Server</button>
+                <button type="button" class="btn cancel" id="close">Close</button>
+            </form>
+        </div>
 
     </div>
-
-
 
 </body>
 <script type="module" src="./script.js "></script>
