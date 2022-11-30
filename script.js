@@ -13,17 +13,32 @@ try {
 } catch {
     var server = null;
 }
-// if loged in then make sigh in button say that you are
 
-try {
-    document.getElementById("account").innerHTML = JSON.parse(localStorage.account).user;
-} catch {
+function update() {
+    // if loged in then make sigh in button say that you are
+    var loggedin = false;
+
     try {
-        document.getElementById("account").innerHTML = "Sign/Log in";
-    } catch {
+        // document.getElementById("img").src = JSON.parse(localStorage.account).img;
 
+        document.getElementById("account").innerHTML = JSON.parse(localStorage.account).user;
+        document.getElementById("Username").innerHTML = "Username: " + JSON.parse(localStorage.account).user;
+        document.getElementById("name").innerHTML = "Name: " + JSON.parse(localStorage.account).name;
+        document.getElementById("email").innerHTML = "Email: " + JSON.parse(localStorage.account).email;
+        loggedin = true;
+    } catch {
+        try {
+            console.log(JSON.parse(localStorage.account).user);
+
+            document.getElementById("account").innerHTML = "Sign/Log in";
+            loggedin = false;
+        } catch {
+
+        }
     }
 }
+update();
+
 
 // Your web app's Firebase configuration
 
@@ -92,6 +107,7 @@ function writeUserData(name, message) {
     // num go to servers postcount
     const db = getDatabase(app);
     const num = ref(db, "servers/" + server + "/postcount/");
+
     get((db, num)).then((snapshot) => {
         // gets value of post counts
         console.log(snapshot.val());
@@ -103,12 +119,13 @@ function writeUserData(name, message) {
 
         });
         // go to the server then the postcount file
-        console.log("name: ", name)
-        console.log("message: ", message)
+        // console.log("name: ", name)
+        // console.log("message: ", message)
         set(ref(db, "servers/" + server + "/" + "message" + nums.nums + "/"), {
             // add name and message to it
             name: name,
             message: message,
+            img: JSON.parse(localStorage.account).img
 
         });
         location.href = 'chat.html' + "?server=" + server
@@ -131,9 +148,9 @@ function loadservers() {
             //  this make it so that when you click on it it will set you server to the name of that you clicked on
             i.src = servs.postcount.img
                 // adds the server name to the div
-            try{
-            document.getElementById("serverName").appendChild(d);}
-            catch{       }
+            try {
+                document.getElementById("serverName").appendChild(d);
+            } catch {}
             d.addEventListener("click", function() {
                 server = servs.postcount.server
                     // console.log(server)
@@ -179,24 +196,40 @@ function loadchat() {
             // loops through all servers
             // console.log(snap.val())
             const chat = snap.val();
+            var imgs = document.createElement("img")
+            imgs.src = chat.img;
+            imgs.className = "images";
             // console.log("the chat",chat)
             // makes a div to add to the cant list that gos to the chay name in the file and sets it to it htlm
+            var main = document.createElement("div")
+            main.setAttribute("style", "display:flex")
+
             var user = document.createElement('div');
-            user.id = "server";
-            user.className = "chat";
+            main.id = "server";
+            main.className = "chat";
             // d.addEventListener("click", function() {
             var userChat = document.createElement('div');
 
+
             user.innerHTML = chat.name;
+            user.setAttribute("style", "color:yellow");
+
             userChat.innerHTML = chat.message;
+            userChat.setAttribute("style", "color:orange");
+
             user.appendChild(userChat);
 
+            // user.appendChild(imgs)
+            console.log(user)
+            main.appendChild(imgs)
+            main.appendChild(user)
+                // console.log(main)
 
             try {
 
                 if (chat.name != null || chat.message != null) {
 
-                    document.getElementById("toSend").appendChild(user);
+                    document.getElementById("toSend").appendChild(main);
                 }
             } catch {
                 console.log("error", chat.name + ": " + chat.message)
@@ -234,69 +267,77 @@ function makeAccount() {
     const db = getDatabase(app);
 
     const users = ref(db, "users/" + document.getElementById("sName").value + "/");
-    console.log(document.getElementById("sName").value)
-    try{
-        if(document.getElementById("sName").value==""||document.getElementById("sUName").value==""||document.getElementById("sEmail").value==""||document.getElementById("sPassword").value==""||document.getElementById("sPassword2").value==""){
+    // console.log(document.getElementById("sName").value)
+    try {
+        if (document.getElementById("userimg").value == "") {
+            var img = "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/1410400/rubber-duck-clipart-xl.png"
+
+        }
+    } catch { console.log("No data available2"); }
+    try {
+        if (document.getElementById("sName").value == "" || document.getElementById("sUName").value == "" || document.getElementById("sEmail").value == "" || document.getElementById("sPassword").value == "" || document.getElementById("sPassword2").value == "") {
             alert("fill in all felds please.")
-        }else{
-        if (document.getElementById("sPassword").value == document.getElementById("sPassword").value) {
-            var pass = document.getElementById("sPassword").value
-    } else {
-        // stop
-    }
-    get((db, users)).then((snapshot) => {
-        // gets value of post counts
-        const nums = snapshot.val();
-        set(users, {
-            // sets it to itself +1
-            name: document.getElementById("sName").value,
-            user: document.getElementById("sUName").value,
-            email: document.getElementById("sEmail").value,
-            password: pass
-            
-            
-        });
-        
-    });
-        }}
-catch (err) {}
+        } else {
+            if (document.getElementById("sPassword").value == document.getElementById("sPassword").value) {
+                var pass = document.getElementById("sPassword").value
+            } else {
+                // stop
+            }
+            get((db, users)).then((snapshot) => {
+                // gets value of post counts
+                const nums = snapshot.val();
+                set(users, {
+                    // sets it to itself +1
+                    name: document.getElementById("sName").value,
+                    user: document.getElementById("sUName").value,
+                    email: document.getElementById("sEmail").value,
+                    password: pass,
+                    img: img
+
+
+                });
+
+            });
+
+        }
+        alert("Account made")
+        location.href = 'account.html'
+    } catch (err) {}
     // location.href = 'account.html'
 }
 
 function login() {
     // num go to servers postcount
-    console.log("logging in...");
-    
-    try{
-        const users = ref(db, "users/");
-        const db = getDatabase(app);
-        if(document.getElementById("lName").value==""||document.getElementById("lPass").value==""){
-            alert("fill in all felds please.")
-        }else{
-    console.log(document.getElementById("sName").value)
 
-    get((db, users)).then((snapshot) => {
-        snapshot.forEach(snap => {
-            // loops through all servers
-            const user = snap.val();
-            // makes a div to add to the server list that gos to the server name in the file and sets it to it htlm\
-            console.log(user)
-            if (user.user == document.getElementById("lName").value && user.password == document.getElementById("lPass").value || user.email == document.getElementById("lName").value && user.password == document.getElementById("lPass").value) {
-                localStorage.account = JSON.stringify(user)
+    const db = getDatabase(app);
+    const users = ref(db, "users/");
+    if (document.getElementById("lName").value == "" || document.getElementById("lPass").value == "") {
+        alert("fill in all felds please.")
+    } else {
+        console.log("logging in...");
+        // console.log(document.getElementById("sName").value)
 
-                location.href = "index.html"
-            }
-        });
+        get((db, users)).then((snapshot) => {
+            snapshot.forEach(snap => {
+                // loops through all servers
+                const user = snap.val();
+                // makes a div to add to the server list that gos to the server name in the file and sets it to it htlm\
+                console.log(user)
+                if (user.user == document.getElementById("lName").value && user.password == document.getElementById("lPass").value || user.email == document.getElementById("lName").value && user.password == document.getElementById("lPass").value) {
+                    localStorage.account = JSON.stringify(user)
+
+                    location.href = "index.html"
+                }
+            });
 
 
-    })}}
-    catch (error) {}
+        })
+    }
+
 
 }
 
-// makeServer(server)
-// loadservers()
-// makeServer(prompt("server name"))
+
 // function that waits for update to the firebase and updates file if there is one 
 // loadchat()
 const db = getDatabase(app);
@@ -311,23 +352,6 @@ onValue(data, (snapshot) => {
     }
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const firebase_node = ref(db, server + "/");
-// firebase_node.once('value', function(snapshot) { alert('Count: ' + snapshot.numChildren()); });
-// console.log("working");
 try {
 
     document.getElementById("send").onclick = function() {
@@ -345,8 +369,9 @@ try {
 }
 
 try {
-    // writeUserData(prompt("name"), prompt("message"));
+
     document.getElementById("createServer").onclick = function() { makeServer() };
+
 } catch (error) {
 
 }
@@ -364,7 +389,13 @@ try {
 }
 try {
     // writeUserData(prompt("name"), prompt("message"));
-    document.getElementById("create").onclick = function() { openForm() };
+    document.getElementById("create").onclick = function() {
+        if (loggedin) { openForm() } else {
+
+            alert("please login first");
+
+        }
+    };
 } catch (error) {
 
 }
