@@ -237,6 +237,6 @@ input[type="submit"]:hover {
     width: 3%;
 }
 
-#server {
+#servers {
     display: flex;
 }

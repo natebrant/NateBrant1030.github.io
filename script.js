@@ -125,13 +125,15 @@ function loadservers() {
             const servs = snap.val();
             // makes a div to add to the server list that gos to the server name in the file and sets it to it htlm
             var d = document.createElement('div');
-            d.id = "server";
+            d.id = "servers";
             d.className = "item";
             var i = document.createElement('img');
             //  this make it so that when you click on it it will set you server to the name of that you clicked on
             i.src = servs.postcount.img
                 // adds the server name to the div
-            document.getElementById("serverName").appendChild(d);
+            try{
+            document.getElementById("serverName").appendChild(d);}
+            catch{       }
             d.addEventListener("click", function() {
                 server = servs.postcount.server
                     // console.log(server)
@@ -233,9 +235,12 @@ function makeAccount() {
 
     const users = ref(db, "users/" + document.getElementById("sName").value + "/");
     console.log(document.getElementById("sName").value)
-
-    if (document.getElementById("sPassword").value == document.getElementById("sPassword").value) {
-        var pass = document.getElementById("sPassword").value
+    try{
+        if(document.getElementById("sName").value==""||document.getElementById("sUName").value==""||document.getElementById("sEmail").value==""||document.getElementById("sPassword").value==""||document.getElementById("sPassword2").value==""){
+            alert("fill in all felds please.")
+        }else{
+        if (document.getElementById("sPassword").value == document.getElementById("sPassword").value) {
+            var pass = document.getElementById("sPassword").value
     } else {
         // stop
     }
@@ -248,20 +253,26 @@ function makeAccount() {
             user: document.getElementById("sUName").value,
             email: document.getElementById("sEmail").value,
             password: pass
-
-
+            
+            
         });
-
+        
     });
+        }}
+catch (err) {}
     // location.href = 'account.html'
 }
 
 function login() {
     // num go to servers postcount
     console.log("logging in...");
-    const db = getDatabase(app);
-
-    const users = ref(db, "users/");
+    
+    try{
+        const users = ref(db, "users/");
+        const db = getDatabase(app);
+        if(document.getElementById("lName").value==""||document.getElementById("lPass").value==""){
+            alert("fill in all felds please.")
+        }else{
     console.log(document.getElementById("sName").value)
 
     get((db, users)).then((snapshot) => {
@@ -278,7 +289,8 @@ function login() {
         });
 
 
-    })
+    })}}
+    catch (error) {}
 
 }
 
@@ -341,6 +353,12 @@ try {
 try {
     // writeUserData(prompt("name"), prompt("message"));
     document.getElementById("signUp").onclick = function() { makeAccount() };
+} catch (error) {
+
+}
+try {
+    // writeUserData(prompt("name"), prompt("message"));
+    document.getElementById("login").onclick = function() { login() };
 } catch (error) {
 
 }
