@@ -12,19 +12,19 @@
     <div class="header">
         <div class="flex">
             <div class="block" style="margin-left:1%; white-space: nowrap;">
-                <h1>Chat app</h1>
+                <h1>Duck Chat</h1>
             </div>
             <div class="block space" ;></div>
-            <div class="block">
+            <!-- <div class="block">
                 <input class="input" name="comment" placeholder="Search"></input>
             </div>
-            <div class="block space" ;></div>
+            <div class="block space" ;></div> -->
             <div class="block" ;>
                 <button class="nav-button block" onclick="location.href='index.html'">Home</button>
             </div>
-            <div class=" block ">
+            <!-- <div class=" block ">
                 <button class="nav-button block " onclick="location.href='favorites.html'">Favorites</button>
-            </div>
+            </div> -->
             <div class="block dropdown">
                 <button class="nav-button block dropbtn" id="account" onclick="location.href='account.html'">Sign/Log in</button>
                 <div class="dropdown-content">
@@ -53,7 +53,9 @@
                 <h1>Create Server</h1>
                 <input type="text" placeholder="Enter Server name" id="serverName" required>
 
-                <input type="text" placeholder="Enter Server image url" id="img">
+                <input type="text" placeholder="Optional: Enter Server image url" id="img">
+                <input type="text" placeholder="Optional: Enter Hex Color" id="color">
+
 
                 <button type="submit" class="btn" id="createServer">Create Server</button>
                 <button type="button" class="btn cancel" id="close">Close</button>

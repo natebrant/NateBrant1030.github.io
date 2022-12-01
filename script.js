@@ -14,10 +14,8 @@ try {
     var server = null;
 }
 
-function update() {
-    // if loged in then make sigh in button say that you are
-    var loggedin = false;
 
+    // if loged in then make sigh in button say that you are
     try {
         // document.getElementById("img").src = JSON.parse(localStorage.account).img;
 
@@ -25,20 +23,17 @@ function update() {
         document.getElementById("Username").innerHTML = "Username: " + JSON.parse(localStorage.account).user;
         document.getElementById("name").innerHTML = "Name: " + JSON.parse(localStorage.account).name;
         document.getElementById("email").innerHTML = "Email: " + JSON.parse(localStorage.account).email;
-        loggedin = true;
+        var loggedin = true;
     } catch {
         try {
             console.log(JSON.parse(localStorage.account).user);
 
             document.getElementById("account").innerHTML = "Sign/Log in";
-            loggedin = false;
+            var loggedin = false;
         } catch {
 
         }
     }
-}
-update();
-
 
 // Your web app's Firebase configuration
 
@@ -81,10 +76,21 @@ function makeServer() {
         if (document.getElementById("img").value == "") {
             var img = "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/1410400/rubber-duck-clipart-xl.png"
 
+        }else{
+            var img = document.getElementById("img").value
         }
-    } catch { console.log("No data available2"); }
+
+    } catch { console.log("error image"); }
+    try {
+        if (document.getElementById("color").value == "") {
+            var color = "#dd7d53"
+
+        }else{
+            var color = document.getElementById("color").value
+        }
+
+    } catch { console.log("Error color"); }
     get((db, num)).then((snapshot) => {
-        console.log("makeing server2")
             // gets value of post counts
         if (snapshot.exists()) {
             console.log(snapshot.val());
@@ -94,11 +100,12 @@ function makeServer() {
                 // add name and message to it
                 nums: 1,
                 server: server,
-                img: img
-
+                img: img,
+                creator: JSON.parse(localStorage.account).user,
+                color:color
             });
         }
-        location.href = 'index.html'
+        // location.href = 'index.html'
         loadservers()
     })
 }
@@ -125,7 +132,8 @@ function writeUserData(name, message) {
             // add name and message to it
             name: name,
             message: message,
-            img: JSON.parse(localStorage.account).img
+            img: JSON.parse(localStorage.account).img,
+            color: JSON.parse(localStorage.account).color
 
         });
         location.href = 'chat.html' + "?server=" + server
@@ -163,7 +171,13 @@ function loadservers() {
             d.appendChild(i);
             var chat = document.createElement("div")
             chat.innerHTML = servs.postcount.server;
+            chat.setAttribute("style", "color:"+servs.postcount.color);
+            var by = document.createElement("div")
+            by.innerHTML = "Created by: "+servs.postcount.creator ;
+            by.className = "by"
             d.appendChild(chat)
+            d.appendChild(by)
+
 
             try {
 
@@ -215,7 +229,7 @@ function loadchat() {
             user.setAttribute("style", "color:yellow");
 
             userChat.innerHTML = chat.message;
-            userChat.setAttribute("style", "color:orange");
+            userChat.setAttribute("style", "color:"+ chat.color);
 
             user.appendChild(userChat);
 
@@ -272,6 +286,16 @@ function makeAccount() {
         if (document.getElementById("userimg").value == "") {
             var img = "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/1410400/rubber-duck-clipart-xl.png"
 
+        }else{
+            var img = document.getElementById("userimg").value;
+        }
+    } catch { console.log("No data available2"); }
+    try {
+        if (document.getElementById("userColor").value == "") {
+            var userColor = "#dd7d53"
+
+        }else{
+            var userColor = document.getElementById("userColor").value;
         }
     } catch { console.log("No data available2"); }
     try {
@@ -292,7 +316,8 @@ function makeAccount() {
                     user: document.getElementById("sUName").value,
                     email: document.getElementById("sEmail").value,
                     password: pass,
-                    img: img
+                    img: img,
+                    color:userColor
 
 
                 });
@@ -338,6 +363,20 @@ function login() {
 }
 
 
+function checkImage(url) {
+    var request = new XMLHttpRequest();
+    request.open("GET", url, true);
+    request.send();
+    request.onload = function() {
+      status = request.status;
+      if (request.status == 200) //if(statusText == OK)
+      {
+        console.log("image exists");
+      } else {
+        console.log("image doesn't exist");
+      }
+    }
+  }
 // function that waits for update to the firebase and updates file if there is one 
 // loadchat()
 const db = getDatabase(app);
@@ -369,8 +408,32 @@ try {
 }
 
 try {
+    document.getElementById("createServer").onclick = function() { if (loggedin) {
 
-    document.getElementById("createServer").onclick = function() { makeServer() };
+        try{
+            if (document.getElementById("serverName").value.length<8){
+                alert("Server name must be atleast 8 characters long");
+            }else if (document.getElementById("serverName").value.length>21){
+                alert("Server name must be lest then 21 characters long");
+            }else if (checkImage(document.getElementById("img").value)||!document.getElementById("img").value== ""){
+                alert("input a valid image");
+
+            }else{
+            makeServer() }
+            
+        }catch{
+
+        }
+
+
+
+
+        } else {
+
+        alert("please login first");
+
+    }}
+    // document.getElementById("createServer").onclick = function() { makeServer() };
 
 } catch (error) {
 
@@ -405,3 +468,13 @@ try {
 } catch (error) {
 
 }
+try{
+    document.onkeydown = function (e) {
+        e = e || window.event;
+        switch (e.which || e.keyCode) {
+            case 13:{  if(!document.getElementById("chat").value== ""){
+                writeUserData(JSON.parse(localStorage.account).user, document.getElementById("chat").value)}}
+                break;
+        }
+    }
+}catch{}

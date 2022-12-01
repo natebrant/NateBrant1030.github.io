@@ -13,7 +13,7 @@ body {
     border: 1px solid rgb(255, 170, 43);
     /* padding-left: 3%; */
     width: 99.9%;
-    height: 5%;
+    height: auto;
 }
 
 .flex {
@@ -207,7 +207,7 @@ input[type="submit"]:hover {
 /* Set a style for the submit/login button */
 
 .form-container .btn {
-    background-color: #04AA6D;
+    /* background-color: #04AA6D; */
     color: white;
     padding: 16px 20px;
     border: none;
@@ -234,11 +234,13 @@ input[type="submit"]:hover {
 
 .images {
     margin-right: 1%;
-    width: 3%;
+    height: 2em !important;
+    width: 2em;
 }
 
 #servers {
     display: flex;
+    /* height: 10em; */
 }
 
 #toSend {
@@ -249,7 +251,7 @@ input[type="submit"]:hover {
 }
 
 #scroll {
-    border: solid 1px #04AA6D;
+    /* border: solid 1px #04AA6D; */
     overflow-y: auto;
     -ms-overflow-style: none;
     /* for Internet Explorer, Edge */
@@ -268,6 +270,9 @@ input[type="submit"]:hover {
     display: block
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
 
 /* Dropdown Button */
 
@@ -303,4 +308,8 @@ input[type="submit"]:hover {
 
 .dropdown:hover .dropdown-content {
     display: block;
+}
+.by{
+    color: aliceblue;
+    margin-left: auto;
 }
