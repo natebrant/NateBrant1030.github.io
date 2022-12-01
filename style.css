@@ -207,7 +207,7 @@ input[type="submit"]:hover {
 /* Set a style for the submit/login button */
 
 .form-container .btn {
-    /* background-color: #04AA6D; */
+    background-color: #04AA6D;
     color: white;
     padding: 16px 20px;
     border: none;
@@ -274,6 +274,7 @@ input[type="submit"]:hover {
     display: none;
 }
 
+
 /* Dropdown Button */
 
 
@@ -309,7 +310,14 @@ input[type="submit"]:hover {
 .dropdown:hover .dropdown-content {
     display: block;
 }
-.by{
+
+.by {
     color: aliceblue;
     margin-left: auto;
+}
+
+.hide {
+    text-security: disc;
+    -webkit-text-security: disc;
+    -moz-text-security: disc;
 }

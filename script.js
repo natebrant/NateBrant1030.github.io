@@ -15,25 +15,25 @@ try {
 }
 
 
-    // if loged in then make sigh in button say that you are
+// if loged in then make sigh in button say that you are
+try {
+    // document.getElementById("img").src = JSON.parse(localStorage.account).img;
+
+    document.getElementById("account").innerHTML = JSON.parse(localStorage.account).user;
+    document.getElementById("Username").innerHTML = "Username: " + JSON.parse(localStorage.account).user;
+    document.getElementById("name").innerHTML = "Name: " + JSON.parse(localStorage.account).name;
+    document.getElementById("email").innerHTML = "Email: " + JSON.parse(localStorage.account).email;
+    var loggedin = true;
+} catch {
     try {
-        // document.getElementById("img").src = JSON.parse(localStorage.account).img;
+        console.log(JSON.parse(localStorage.account).user);
 
-        document.getElementById("account").innerHTML = JSON.parse(localStorage.account).user;
-        document.getElementById("Username").innerHTML = "Username: " + JSON.parse(localStorage.account).user;
-        document.getElementById("name").innerHTML = "Name: " + JSON.parse(localStorage.account).name;
-        document.getElementById("email").innerHTML = "Email: " + JSON.parse(localStorage.account).email;
-        var loggedin = true;
+        document.getElementById("account").innerHTML = "Sign/Log in";
+        var loggedin = false;
     } catch {
-        try {
-            console.log(JSON.parse(localStorage.account).user);
 
-            document.getElementById("account").innerHTML = "Sign/Log in";
-            var loggedin = false;
-        } catch {
-
-        }
     }
+}
 
 // Your web app's Firebase configuration
 
@@ -68,47 +68,46 @@ function makeServer() {
     // num go to servers postcount
     const db = getDatabase(app);
     const num = ref(db, "servers/" + server + "/");
+
     try {
-        // console.log(document.getElementById("img").value)
         var server = document.getElementById("serverName").value
-    } catch {}
-    try {
         if (document.getElementById("img").value == "") {
             var img = "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/1410400/rubber-duck-clipart-xl.png"
-
-        }else{
+        } else {
             var img = document.getElementById("img").value
         }
-
-    } catch { console.log("error image"); }
-    try {
         if (document.getElementById("color").value == "") {
             var color = "#dd7d53"
-
-        }else{
+        } else {
             var color = document.getElementById("color").value
         }
-
     } catch { console.log("Error color"); }
-    get((db, num)).then((snapshot) => {
+
+    try {
+        get((db, num)).then((snapshot) => {
             // gets value of post counts
-        if (snapshot.exists()) {
-            console.log(snapshot.val());
-        } else {
-            console.log("No data available");
-            set(ref(db, "servers/" + server + "/postcount/"), {
-                // add name and message to it
-                nums: 1,
-                server: server,
-                img: img,
-                creator: JSON.parse(localStorage.account).user,
-                color:color
-            });
-        }
-        // location.href = 'index.html'
-        loadservers()
-    })
+            if (snapshot.exists()) {
+                console.log(snapshot.val());
+            } else {
+                console.log("No data available");
+                set(ref(db, "servers/" + server + "/postcount/"), {
+                    // add name and message to it
+                    nums: 1,
+                    server: server,
+                    img: img,
+                    creator: JSON.parse(localStorage.account).user,
+                    color: color
+                });
+            }
+            // location.href = 'index.html'
+            loadservers()
+        })
+    } catch (e) {
+        console.log(e);
+    }
 }
+
+
 // function to write a chat to a server
 function writeUserData(name, message) {
     // num go to servers postcount
@@ -122,7 +121,10 @@ function writeUserData(name, message) {
         set(num, {
             // sets it to itself +1
             nums: nums.nums += 1,
-            server: server
+            server: server,
+            img: nums.img,
+            creator: nums.creator,
+            color: nums.color
 
         });
         // go to the server then the postcount file
@@ -171,9 +173,9 @@ function loadservers() {
             d.appendChild(i);
             var chat = document.createElement("div")
             chat.innerHTML = servs.postcount.server;
-            chat.setAttribute("style", "color:"+servs.postcount.color);
+            chat.setAttribute("style", "color:" + servs.postcount.color);
             var by = document.createElement("div")
-            by.innerHTML = "Created by: "+servs.postcount.creator ;
+            by.innerHTML = "Created by: " + servs.postcount.creator;
             by.className = "by"
             d.appendChild(chat)
             d.appendChild(by)
@@ -229,7 +231,7 @@ function loadchat() {
             user.setAttribute("style", "color:yellow");
 
             userChat.innerHTML = chat.message;
-            userChat.setAttribute("style", "color:"+ chat.color);
+            userChat.setAttribute("style", "color:" + chat.color);
 
             user.appendChild(userChat);
 
@@ -256,7 +258,42 @@ function loadchat() {
     })
 
 }
+// https://www.w3resource.com/javascript/form/email-validation.php
+// this is the same function that form type email uses but the way i have it it wont with if i just change the type 
+function ValidateEmail(mail) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+        return (true)
+    }
+    return (false)
+}
+// i loked into how they did the valEmail function and useing regex you can accualy make a passcheck realy simply with it 
+// (?=.*[A-Z])an uppercase letters.,(?=.*[!@#$&*])  has one special case letter.,(?=.*[0-9])has one digits.
+// (?=.*[a-z]  has am lowercase letters.,.{8} length 8.
+function passcheck(pass) {
+    if (/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$/.test(pass)) {
+        return (true)
+    }
+    return (false)
+}
 
+function hexCheck(hex) {
+    if (/^#[0-9A-F]{6}$/i.test(hex)) {
+        return (true)
+    }
+    return (false)
+}
+// https://stackoverflow.com/questions/18837735/check-if-image-exists-on-server-using-javascript
+function imageCheck(image_url) {
+
+    var http = new XMLHttpRequest();
+
+    http.open('HEAD', image_url, false);
+    http.send();
+
+    return http.status != 404;
+
+}
+// sets the server into the querry tag so i can access what server im in whenever
 function setserver(search) {
     var search = search
     if (search != undefined) {
@@ -266,15 +303,15 @@ function setserver(search) {
 
     }
 }
-
+// opens create server form
 function openForm() {
     document.getElementById("myForm").style.display = "block";
 }
-
+// close server form
 function closeForm() {
     document.getElementById("myForm").style.display = "none";
 }
-
+// sign up
 function makeAccount() {
     // num go to servers postcount
     console.log("makeing accout")
@@ -285,28 +322,36 @@ function makeAccount() {
     try {
         if (document.getElementById("userimg").value == "") {
             var img = "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/1410400/rubber-duck-clipart-xl.png"
-
-        }else{
+        } else {
             var img = document.getElementById("userimg").value;
         }
     } catch { console.log("No data available2"); }
     try {
         if (document.getElementById("userColor").value == "") {
             var userColor = "#dd7d53"
-
-        }else{
+        } else {
             var userColor = document.getElementById("userColor").value;
         }
     } catch { console.log("No data available2"); }
     try {
         if (document.getElementById("sName").value == "" || document.getElementById("sUName").value == "" || document.getElementById("sEmail").value == "" || document.getElementById("sPassword").value == "" || document.getElementById("sPassword2").value == "") {
             alert("fill in all felds please.")
+        } else if (document.getElementById("sPassword").value != document.getElementById("sPassword2").value) {
+            alert("Passwords do not match.")
+        } else if (document.getElementById("sUName").value.length <= 5 || document.getElementById("sUName").value.length >= 21) {
+            alert("Username too short or long.")
+        } else if (!ValidateEmail(document.getElementById("sEmail").value)) {
+            alert("invalid email.")
+        } else if (document.getElementById("sName").value.length <= 5 || document.getElementById("sName").value.length >= 21) {
+            alert("name too short or long.")
+        } else if (!passcheck(document.getElementById("sPassword").value)) {
+            alert("Password is to weak")
+        } else if (!hexCheck(document.getElementById("userColor").value) && !document.getElementById("userColor").value == "") {
+            alert("invalid hex code")
+        } else if (!imageCheck(document.getElementById("userimg").value)) {
+            alert("invalid image")
         } else {
-            if (document.getElementById("sPassword").value == document.getElementById("sPassword").value) {
-                var pass = document.getElementById("sPassword").value
-            } else {
-                // stop
-            }
+            var pass = document.getElementById("sPassword").value
             get((db, users)).then((snapshot) => {
                 // gets value of post counts
                 const nums = snapshot.val();
@@ -317,20 +362,19 @@ function makeAccount() {
                     email: document.getElementById("sEmail").value,
                     password: pass,
                     img: img,
-                    color:userColor
+                    color: userColor
 
 
                 });
 
             });
 
+            alert("Account made")
+                // location.href = 'account.html'
         }
-        alert("Account made")
-        location.href = 'account.html'
     } catch (err) {}
-    // location.href = 'account.html'
 }
-
+// login
 function login() {
     // num go to servers postcount
 
@@ -347,11 +391,13 @@ function login() {
                 // loops through all servers
                 const user = snap.val();
                 // makes a div to add to the server list that gos to the server name in the file and sets it to it htlm\
-                console.log(user)
+                // console.log(user)
                 if (user.user == document.getElementById("lName").value && user.password == document.getElementById("lPass").value || user.email == document.getElementById("lName").value && user.password == document.getElementById("lPass").value) {
                     localStorage.account = JSON.stringify(user)
 
                     location.href = "index.html"
+                } else {
+                    alert("invalid username or password")
                 }
             });
 
@@ -362,21 +408,6 @@ function login() {
 
 }
 
-
-function checkImage(url) {
-    var request = new XMLHttpRequest();
-    request.open("GET", url, true);
-    request.send();
-    request.onload = function() {
-      status = request.status;
-      if (request.status == 200) //if(statusText == OK)
-      {
-        console.log("image exists");
-      } else {
-        console.log("image doesn't exist");
-      }
-    }
-  }
 // function that waits for update to the firebase and updates file if there is one 
 // loadchat()
 const db = getDatabase(app);
@@ -391,6 +422,8 @@ onValue(data, (snapshot) => {
     }
 });
 
+
+// all the buttons that need onclick listenrs try is cause it wants to error if buttons on on said page 
 try {
 
     document.getElementById("send").onclick = function() {
@@ -399,41 +432,39 @@ try {
 } catch (error) {
 
 }
-
 try {
     // writeUserData(prompt("name"), prompt("message"));
     document.getElementById("test").onclick = function() { console.log(JSON.parse(localStorage.account).user) };
 } catch (error) {
 
 }
-
 try {
-    document.getElementById("createServer").onclick = function() { if (loggedin) {
+    document.getElementById("createServer").onclick = function() {
+            if (loggedin) {
 
-        try{
-            if (document.getElementById("serverName").value.length<8){
-                alert("Server name must be atleast 8 characters long");
-            }else if (document.getElementById("serverName").value.length>21){
-                alert("Server name must be lest then 21 characters long");
-            }else if (checkImage(document.getElementById("img").value)||!document.getElementById("img").value== ""){
-                alert("input a valid image");
+                try {
+                    if (document.getElementById("serverName").value.length <= 8) {
+                        alert("Server name must be atleast 8 characters long");
+                    } else if (document.getElementById("serverName").value.length >= 21) {
+                        alert("Server name must be least then 21 characters long");
+                    } else if (!imageCheck(document.getElementById("img").value)) {
+                        alert("invalid image")
+                    } else if (!hexCheck(document.getElementById("color").value) && !document.getElementById("color").value == "") {
+                        alert("invalit hex")
+                    } else {
+                        makeServer()
+                    }
 
-            }else{
-            makeServer() }
-            
-        }catch{
+                } catch {
 
+                }
+            } else {
+
+                alert("please login first");
+
+            }
         }
-
-
-
-
-        } else {
-
-        alert("please login first");
-
-    }}
-    // document.getElementById("createServer").onclick = function() { makeServer() };
+        // document.getElementById("createServer").onclick = function() { makeServer() };
 
 } catch (error) {
 
@@ -441,15 +472,11 @@ try {
 try {
     // writeUserData(prompt("name"), prompt("message"));
     document.getElementById("signUp").onclick = function() { makeAccount() };
-} catch (error) {
-
-}
+} catch (error) {}
 try {
     // writeUserData(prompt("name"), prompt("message"));
     document.getElementById("login").onclick = function() { login() };
-} catch (error) {
-
-}
+} catch (error) {}
 try {
     // writeUserData(prompt("name"), prompt("message"));
     document.getElementById("create").onclick = function() {
@@ -459,22 +486,22 @@ try {
 
         }
     };
-} catch (error) {
-
-}
+} catch (error) {}
 try {
     // writeUserData(prompt("name"), prompt("message"));
     document.getElementById("close").onclick = function() { closeForm() };
-} catch (error) {
-
-}
-try{
-    document.onkeydown = function (e) {
+} catch (error) {}
+try {
+    document.onkeydown = function(e) {
         e = e || window.event;
         switch (e.which || e.keyCode) {
-            case 13:{  if(!document.getElementById("chat").value== ""){
-                writeUserData(JSON.parse(localStorage.account).user, document.getElementById("chat").value)}}
+            case 13:
+                {
+                    if (!document.getElementById("chat").value == "") {
+                        writeUserData(JSON.parse(localStorage.account).user, document.getElementById("chat").value)
+                    }
+                }
                 break;
         }
     }
-}catch{}
+} catch {}
