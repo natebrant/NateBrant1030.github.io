@@ -398,8 +398,8 @@ function login() {
 
                     location.href = "index.html"
                 } else {
-                    alert("invalid username or password")
                 }
+                alert("invalid username or password")
             });
 
 
