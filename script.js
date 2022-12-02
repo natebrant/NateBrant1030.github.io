@@ -360,7 +360,7 @@ function makeAccount() {
             alert("Password is to weak")
         } else if (!hexCheck(document.getElementById("userColor").value) && !document.getElementById("userColor").value == "") {
             alert("invalid hex code")
-        } else if (!imageCheck(document.getElementById("userimg").value)) {
+        } else if (!imageCheck(document.getElementById("userimg").value) && (document.getElementById("userimg").value.length<50)) {
             alert("invalid image")
         } else {
             var pass = document.getElementById("sPassword").value
