@@ -113,6 +113,9 @@ function writeUserData(name, message) {
     // num go to servers postcount
     const db = getDatabase(app);
     const num = ref(db, "servers/" + server + "/postcount/");
+
+    if(loggedin){
+
     if (message.length <=200){
     get((db, num)).then((snapshot) => {
         // gets value of post counts
@@ -142,7 +145,11 @@ function writeUserData(name, message) {
     })}
     else {
         alert("Message too long");
-        }
+        }}
+}
+function updateScroll(){
+    var element = document.getElementById("toSend");
+    element.scrollTop = element.scrollHeight;
 }
 
 function loadservers() {
@@ -256,8 +263,7 @@ function loadchat() {
             }
         });
 
-
-        window.scrollTo(0, document.body.scrollHeight);
+        updateScroll();
     })
 
 }
