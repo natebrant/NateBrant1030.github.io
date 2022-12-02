@@ -451,8 +451,8 @@ try {
                 try {
                     if (document.getElementById("serverName").value.length <= 8) {
                         alert("Server name must be atleast 8 characters long");
-                    } else if (document.getElementById("serverName").value.length >= 21) {
-                        alert("Server name must be least then 21 characters long");
+                    } else if (document.getElementById("serverName").value.length >= 100) {
+                        alert("Server name must be least then 100 characters long");
                     } else if (!imageCheck(document.getElementById("img").value)) {
                         alert("invalid image")
                     } else if (!hexCheck(document.getElementById("color").value) && !document.getElementById("color").value == "") {
