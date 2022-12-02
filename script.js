@@ -113,7 +113,7 @@ function writeUserData(name, message) {
     // num go to servers postcount
     const db = getDatabase(app);
     const num = ref(db, "servers/" + server + "/postcount/");
-
+    if (!message.length >=200){
     get((db, num)).then((snapshot) => {
         // gets value of post counts
         console.log(snapshot.val());
@@ -139,7 +139,10 @@ function writeUserData(name, message) {
 
         });
         location.href = 'chat.html' + "?server=" + server
-    })
+    })}
+    else {
+        alert("Message too long");
+        }
 }
 
 function loadservers() {
