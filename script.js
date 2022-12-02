@@ -145,7 +145,9 @@ function writeUserData(name, message) {
     })}
     else {
         alert("Message too long");
-        }}
+        }}else{
+            alert("You are not logged in");
+        }
 }
 function updateScroll(){
     var element = document.getElementById("toSend");
