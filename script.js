@@ -269,8 +269,9 @@ function ValidateEmail(mail) {
 // i loked into how they did the valEmail function and useing regex you can accualy make a passcheck realy simply with it 
 // (?=.*[A-Z])an uppercase letters.,(?=.*[!@#$&*])  has one special case letter.,(?=.*[0-9])has one digits.
 // (?=.*[a-z]  has am lowercase letters.,.{8} length 8.
+// (?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])
 function passcheck(pass) {
-    if (/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$/.test(pass)) {
+    if (/^.{8,}$/.test(pass)) {
         return (true)
     }
     return (false)
