@@ -241,6 +241,7 @@ input[type="submit"]:hover {
 #servers {
     display: flex;
     /* height: 10em; */
+    cursor: pointer;
 }
 
 #toSend {
