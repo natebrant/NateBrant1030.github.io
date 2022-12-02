@@ -386,7 +386,7 @@ function login() {
     } else {
         console.log("logging in...");
         // console.log(document.getElementById("sName").value)
-
+        var logged=false;
         get((db, users)).then((snapshot) => {
             snapshot.forEach(snap => {
                 // loops through all servers
@@ -395,13 +395,14 @@ function login() {
                 // console.log(user)
                 if (user.user == document.getElementById("lName").value && user.password == document.getElementById("lPass").value || user.email == document.getElementById("lName").value && user.password == document.getElementById("lPass").value) {
                     localStorage.account = JSON.stringify(user)
-
+                    logged = true;
                     location.href = "index.html"
                 } else {
 
                 }
             });
-            alert("invalid username or password")
+            if (!logged){
+            alert("invalid username or password")}
 
 
         })
