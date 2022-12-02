@@ -248,6 +248,8 @@ input[type="submit"]:hover {
     -ms-overflow-style: none;
     /* for Internet Explorer, Edge */
     scrollbar-width: none;
+    display: flex;
+flex-direction: column-reverse;
 }
 
 #scroll {
