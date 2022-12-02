@@ -231,23 +231,19 @@ function loadchat() {
             // makes a div to add to the cant list that gos to the chay name in the file and sets it to it htlm
             var main = document.createElement("div")
             main.setAttribute("style", "display:flex")
-
-            var user = document.createElement('div');
             main.id = "server";
             main.className = "chat";
-            // d.addEventListener("click", function() {
-            var userChat = document.createElement('div');
-
-
+            // user div
+            var user = document.createElement('div');
             user.innerHTML = chat.name;
             user.setAttribute("style", "color:yellow");
-
+            // thier chat div
+            var userChat = document.createElement('div');
             userChat.innerHTML = chat.message;
             userChat.setAttribute("style", "color:" + chat.color);
-
-            user.appendChild(userChat);
-
+            
             // user.appendChild(imgs)
+            user.appendChild(userChat);
             console.log(user)
             main.appendChild(imgs)
             main.appendChild(user)
@@ -256,7 +252,7 @@ function loadchat() {
             try {
 
                 if (chat.name != null || chat.message != null) {
-
+                    // add the change div to the main text box
                     document.getElementById("toSend").appendChild(main);
                 }
             } catch {
@@ -264,7 +260,7 @@ function loadchat() {
 
             }
         });
-
+        // make so whenver server loads it will go down to the bottom
         updateScroll();
     })
 
@@ -288,6 +284,7 @@ function passcheck(pass) {
     return (false)
 }
 
+// checks to see if thiere are 6 valuse 1-9A-f and i makes so doseend matter the case 
 function hexCheck(hex) {
     if (/^#[0-9A-F]{6}$/i.test(hex)) {
         return (true)
@@ -298,7 +295,7 @@ function hexCheck(hex) {
 function imageCheck(image_url) {
 
     var http = new XMLHttpRequest();
-
+    // trys to open image url works with most images but still breaks on some
     http.open('HEAD', image_url, false);
     http.send();
 
@@ -330,7 +327,7 @@ function makeAccount() {
     const db = getDatabase(app);
 
     const users = ref(db, "users/" + document.getElementById("sName").value + "/");
-    // console.log(document.getElementById("sName").value)
+    // checks image and color and sets them to a default value
     try {
         if (document.getElementById("userimg").value == "") {
             var img = "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/1410400/rubber-duck-clipart-xl.png"
@@ -346,6 +343,7 @@ function makeAccount() {
         }
     } catch { console.log("No data available2"); }
     try {
+        // alot of checks to make sure its dosent brake the whole thing
         if (document.getElementById("sName").value == "" || document.getElementById("sUName").value == "" || document.getElementById("sEmail").value == "" || document.getElementById("sPassword").value == "" || document.getElementById("sPassword2").value == "") {
             alert("fill in all felds please.")
         } else if (document.getElementById("sPassword").value != document.getElementById("sPassword2").value) {
@@ -363,7 +361,9 @@ function makeAccount() {
         } else if (!imageCheck(document.getElementById("userimg").value) && (document.getElementById("userimg").value.length<50)) {
             alert("invalid image")
         } else {
+            // if it passes validation checks then it will set pass to password box 
             var pass = document.getElementById("sPassword").value
+            // goes and gets a snapshot of the data base 
             get((db, users)).then((snapshot) => {
                 // gets value of post counts
                 const nums = snapshot.val();
@@ -388,22 +388,19 @@ function makeAccount() {
 }
 // login
 function login() {
-    // num go to servers postcount
-
     const db = getDatabase(app);
     const users = ref(db, "users/");
+    // check if fealds are full befor even checking through all accounts
     if (document.getElementById("lName").value == "" || document.getElementById("lPass").value == "") {
         alert("fill in all felds please.")
     } else {
-        console.log("logging in...");
-        // console.log(document.getElementById("sName").value)
         var logged=false;
         get((db, users)).then((snapshot) => {
             snapshot.forEach(snap => {
                 // loops through all servers
                 const user = snap.val();
                 // makes a div to add to the server list that gos to the server name in the file and sets it to it htlm\
-                // console.log(user)
+                // check if user name and password are same or email nad password
                 if (user.user == document.getElementById("lName").value && user.password == document.getElementById("lPass").value || user.email == document.getElementById("lName").value && user.password == document.getElementById("lPass").value) {
                     localStorage.account = JSON.stringify(user)
                     logged = true;
@@ -412,6 +409,7 @@ function login() {
 
                 }
             });
+            // calls an error if no accout is matches the info
             if (!logged){
             alert("invalid username or password")}
 
@@ -423,7 +421,7 @@ function login() {
 }
 
 // function that waits for update to the firebase and updates file if there is one 
-// loadchat()
+// basicly constly looking for update so that if someone else type something it will update on are website
 const db = getDatabase(app);
 const data = ref(db, "servers/" + server + "/");
 onValue(data, (snapshot) => {
