@@ -189,7 +189,7 @@ input[type="submit"]:hover {
     width: 85%;
     padding: 15px;
     margin: 5px 0 22px 0;
-    border: 1 solid white;
+    /* border: 1 solid white; */
     background: #3a3834;
     color: #dd7d53;
 }
@@ -320,7 +320,7 @@ flex-direction: column-reverse; */
 }
 
 .hide {
-    text-security: disc;
+    /* text-security: disc; */
     -webkit-text-security: disc;
     -moz-text-security: disc;
 }
