@@ -382,7 +382,7 @@ function makeAccount() {
             });
 
             alert("Account made")
-                // location.href = 'account.html'
+                location.href = 'account.html'
         }
     } catch (err) {}
 }
